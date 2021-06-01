@@ -7,7 +7,7 @@ class Mainpage extends Component {
 
     render() {
         return (
-            <Col className="main-page" xs={9} lg={10}>
+            <Col className="main-page" xs={12} lg={10}>
                <h3>Search Results</h3>
 
                <Row className="no-gutters">

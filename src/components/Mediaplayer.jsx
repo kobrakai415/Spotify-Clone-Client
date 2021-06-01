@@ -12,7 +12,7 @@ class Mediaplayer extends Component {
         return (
            
                 <>
-                    <Col xs={3} className="media-left d-flex align-items-center justify-content-between">
+                    <Col md={3} className="media-left d-none d-md-flex align-items-center justify-content-between">
                         <div>
                             <img height="56px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1200px-Image_created_with_a_mobile_phone.png"></img>
                         </div>
@@ -27,7 +27,7 @@ class Mediaplayer extends Component {
 
                     </Col>
 
-                    <Col xs={7} className="d-flex flex-column media-mid">
+                    <Col xs={12} md={7} className="d-flex flex-column media-mid">
                     <div className="d-flex align-items-center m-auto">
                     <svg role="img" height="16" width="16" viewBox="0 0 16 16" class="mx-2 Svg-ulyrgf-0 cMigZB"><path d="M4.5 6.8l.7-.8C4.1 4.7 2.5 4 .9 4v1c1.3 0 2.6.6 3.5 1.6l.1.2zm7.5 4.7c-1.2 0-2.3-.5-3.2-1.3l-.6.8c1 1 2.4 1.5 3.8 1.5V14l3.5-2-3.5-2v1.5zm0-6V7l3.5-2L12 3v1.5c-1.6 0-3.2.7-4.2 2l-3.4 3.9c-.9 1-2.2 1.6-3.5 1.6v1c1.6 0 3.2-.7 4.2-2l3.4-3.9c.9-1 2.2-1.6 3.5-1.6z"></path></svg>
                     <svg role="img" height="16" width="16" viewBox="0 0 16 16" class="mx-2 Svg-ulyrgf-0 cMigZB"><path d="M13 2.5L5 7.119V3H3v10h2V8.881l8 4.619z"></path></svg>
@@ -48,7 +48,7 @@ class Mediaplayer extends Component {
 
                     </Col>
 
-                    <Col xs={2} className="media-right d-flex align-items-center">
+                    <Col md={2} className="d-none d-md-flex media-right align-items-center">
                     <div className="d-flex">
                     <div className="p-2">
                     <svg className="px-2" role="presentation" height="16" width="16" aria-label="Volume high" id="volume-icon" viewBox="0 0 16 16" class="Svg-ulyrgf-0 cMigZB"><path d="M12.945 1.379l-.652.763c1.577 1.462 2.57 3.544 2.57 5.858s-.994 4.396-2.57 5.858l.651.763a8.966 8.966 0 00.001-13.242zm-2.272 2.66l-.651.763a4.484 4.484 0 01-.001 6.397l.651.763c1.04-1 1.691-2.404 1.691-3.961s-.65-2.962-1.69-3.962zM0 5v6h2.804L8 14V2L2.804 5H0zm7-1.268v8.536L3.072 10H1V6h2.072L7 3.732z"></path></svg>
