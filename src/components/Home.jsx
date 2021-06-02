@@ -4,6 +4,7 @@ import Mainpage from "./Mainpage.jsx"
 import Mediaplayer from "./Mediaplayer.jsx"
 import { Container, Row } from "react-bootstrap"
 import { BrowserRouter as Router, Route } from 'react-router-dom'
+import MediaControl from "./MediaControl.jsx"
 
 class Home extends Component {
 
@@ -11,7 +12,7 @@ class Home extends Component {
         songs: [],
         query: "",
         selectedSongID: 345,
-        selectedSong: {
+        nowPlaying: {
             "id": 533609232,
             "readable": true,
             "title": "God's Plan",
@@ -114,20 +115,23 @@ class Home extends Component {
     render() {
         return (
             <Container fluid className="px-0">
-                <Row className="mx-0">
+                <Row className="mx-0 main-section">
                     <Sidebar query={this.state.query} queryHandler={this.queryHandler}></Sidebar>
 
                 <Router>
                 <Route path="/" exact>
                     <Mainpage selectedSongHandler={this.selectedSongHandler} songs={this.state.songs}></Mainpage>
                 </Route>
+                {/* <Route render={routerProps => <MediaControl nowPlaying={this.state.nowPlaying} setNowPlaying={id => this.setNowPlaying(id)} {...routerProps} />} /> */}
                 </Router>
 
                 </Row>
 
-                <Row className="mx-0 p-1">
+                <Row className="mx-0 media-player no-gutters p-2">
                     <Mediaplayer></Mediaplayer>
+                    
                 </Row>
+
 
             </Container>
 
