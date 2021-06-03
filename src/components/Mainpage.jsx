@@ -7,10 +7,10 @@ class Mainpage extends Component {
 
     render() {
         return (
-            <Col id="main-page" className="main-page" xs={12} md={9} lg={10}>
-               <h3 className="py-3 px-1">Search Results</h3>
+            <Col className=" main-page main-page-mobile" xs={12} md={9} lg={10}>
+               <h3 className="py-3 px-2">Search Results</h3>
 
-               <Row className="no-gutters">
+               <Row className="mx-0">
 
                {this.props.songs.map(song =>{
                 

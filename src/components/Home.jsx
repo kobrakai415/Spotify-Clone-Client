@@ -2,7 +2,7 @@ import { Component } from "react"
 import Sidebar from "./sidebar.jsx"
 import Mainpage from "./Mainpage.jsx"
 import Mediaplayer from "./Mediaplayer.jsx"
-import { Container, Row } from "react-bootstrap"
+import { Container, Row, Col } from "react-bootstrap"
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import MediaControl from "./MediaControl.jsx"
 
@@ -115,21 +115,26 @@ class Home extends Component {
     render() {
         return (
             <Container fluid className="px-0">
-                <Row className="mx-0 main-section">
+                <Row className="mx-0 main-section no-gutters">
+          
                     <Sidebar query={this.state.query} queryHandler={this.queryHandler}></Sidebar>
 
                 <Router>
                 <Route path="/" exact>
                     <Mainpage selectedSongHandler={this.selectedSongHandler} songs={this.state.songs}></Mainpage>
+                   
                 </Route>
-                {/* <Route render={routerProps => <MediaControl nowPlaying={this.state.nowPlaying} setNowPlaying={id => this.setNowPlaying(id)} {...routerProps} />} /> */}
+           
                 </Router>
 
-                </Row>
 
-                <Row className="mx-0 media-player no-gutters p-2">
+                <Col xs={12} className="media-player">
+                <Row className="mx-0">
+
                     <Mediaplayer></Mediaplayer>
+                </Row>
                     
+                </Col>
                 </Row>
 
 

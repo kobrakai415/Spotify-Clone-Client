@@ -22,6 +22,13 @@ class Mediaplayer extends Component {
         media: null
     }
 
+    playHandler = () => {
+        const playButton = document.getElementById("play")
+        const pauseButton = document.getElementById("pause")
+
+        playButton.classList.toggle("d-none")
+        pauseButton.classList.toggle("d-none")
+    }
     
    
     render() {
@@ -47,19 +54,21 @@ class Mediaplayer extends Component {
                     <div className="d-flex align-items-center m-auto">
                         <svg role="img" height="16" width="16" viewBox="0 0 16 16" className="d-none d-sm-flex mx-3 Svg-ulyrgf-0 cMigZB"><path fill="currentcolor" d="M4.5 6.8l.7-.8C4.1 4.7 2.5 4 .9 4v1c1.3 0 2.6.6 3.5 1.6l.1.2zm7.5 4.7c-1.2 0-2.3-.5-3.2-1.3l-.6.8c1 1 2.4 1.5 3.8 1.5V14l3.5-2-3.5-2v1.5zm0-6V7l3.5-2L12 3v1.5c-1.6 0-3.2.7-4.2 2l-3.4 3.9c-.9 1-2.2 1.6-3.5 1.6v1c1.6 0 3.2-.7 4.2-2l3.4-3.9c.9-1 2.2-1.6 3.5-1.6z"></path></svg>
                         <svg role="img" height="16" width="16" viewBox="0 0 16 16" className="d-none d-sm-flex mx-3 Svg-ulyrgf-0 cMigZB"><path fill="currentcolor" d="M13 2.5L5 7.119V3H3v10h2V8.881l8 4.619z"></path></svg>
-                        <div id="play-button" className="d-flex justify-content-center align-items-center"><svg role="img" height="16" width="16" viewBox="0 0 16 16" className="Svg-ulyrgf-0 cMigZB"><path fill="black" d="M4.018 14L14.41 8 4.018 2z"></path></svg></div>
+                        <div id="play-button" className="d-flex justify-content-center align-items-center" onClick={this.playHandler}>
+                        <svg id="pause" role="img" height="16" width="16" viewBox="0 0 16 16" className="d-none Svg-ulyrgf-0 ghlXvf"><path fill="white" d="M0 0h16v16H0z"></path><path d="M3 2h3v12H3zm7 0h3v12h-3z"></path></svg>
+                        <svg id="play" role="img" height="16" width="16" viewBox="0 0 16 16" className="Svg-ulyrgf-0 cMigZB"><path fill="black" d="M4.018 14L14.41 8 4.018 2z"></path></svg></div>
                         <svg role="img" height="16" width="16" viewBox="0 0 16 16" className="d-none d-sm-flex mx-3 Svg-ulyrgf-0 cMigZB"><path fill="currentcolor" d="M11 3v4.119L3 2.5v11l8-4.619V13h2V3z"></path></svg>
                         <svg role="img" height="16" width="16" viewBox="0 0 16 16" className="d-none d-sm-flex mx-3 Svg-ulyrgf-0 cMigZB"><path fill="currentcolor"d="M5.5 5H10v1.5l3.5-2-3.5-2V4H5.5C3 4 1 6 1 8.5c0 .6.1 1.2.4 1.8l.9-.5C2.1 9.4 2 9 2 8.5 2 6.6 3.6 5 5.5 5zm9.1 1.7l-.9.5c.2.4.3.8.3 1.3 0 1.9-1.6 3.5-3.5 3.5H6v-1.5l-3.5 2 3.5 2V13h4.5C13 13 15 11 15 8.5c0-.6-.1-1.2-.4-1.8z"></path></svg>
 
                     </div>
 
                     <div className="d-flex align-items-center">
-                    <span className="currentTime">00:00</span>
+                    <span className="currentTime">0:00</span>
 
                     <div className="mx-3 progress-bar" style={{height: "2px", width: "90%", backgroundColor: "#b3b3b3"}} role="progressbar" aria-valuenow={0} aria-valuemin={0} aria-valuemax={100}>
                          <audio />
                     </div>
-                    <span className="duration">00:00</span>
+                    <span className="duration">0:00</span>
                     </div>
 
                 </Col>
