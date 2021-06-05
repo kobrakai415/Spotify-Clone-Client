@@ -1,15 +1,6 @@
 import { Component } from "react"
 import { Col } from "react-bootstrap"
-import Next from "../assets/Next.png"
-import Play from "../assets/Play.png"
-import Previous from "../assets/Previous.png"
-import Repeat from "../assets/Repeat.png"
-import Shuffle from "../assets/Shuffle.png"
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { library } from "@fortawesome/fontawesome-svg-core"
-import { faPlay, faStepForward, faStepBackward, faPause, faSync, faRandom, faVolumeUp, faVolumeMute } from "@fortawesome/free-solid-svg-icons"
-library.add(faPlay, faStepBackward, faStepForward, faPause, faPlay, faSync, faRandom, faVolumeUp, faVolumeMute)
 
 class Mediaplayer extends Component {
     state = {

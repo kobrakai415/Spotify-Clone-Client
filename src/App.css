@@ -56,11 +56,33 @@ body {
 .media-player svg {
   color: #b3b3b3;
 }
-
+.media-left .media-main .media-right {
+  height: 100%;
+}
 #play-button {
   border-radius: 50%;
   background-color: white;
   height: 32px;
   width: 32px;
+}
+
+#search-bar {
+  border-radius: 500px;
+  height: 40px;
+  max-width: 80;
+  text-overflow: ellipsis;
+  width: 100%;
+  padding: 6px 48px;
+}
+
+#search-bar-parent {
+  position: relative;
+  margin-top: 10px;
+}
+.search-bar-glass {
+  position: absolute;
+  left: 17px;
+  top: 8px;
+  color: black;
 }
 

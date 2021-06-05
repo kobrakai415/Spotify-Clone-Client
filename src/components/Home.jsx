@@ -1,10 +1,10 @@
 import { Component } from "react"
-import Sidebar from "./sidebar.jsx"
+import Sidebar from "./Sidebar.jsx"
 import Mainpage from "./Mainpage.jsx"
 import Mediaplayer from "./Mediaplayer.jsx"
 import { Container, Row, Col } from "react-bootstrap"
 import { BrowserRouter as Router, Route } from 'react-router-dom'
-import MediaControl from "./MediaControl.jsx"
+
 
 class Home extends Component {
 
@@ -52,6 +52,9 @@ class Home extends Component {
             },
             "type": "track"
         },
+
+        searchBar: false,
+        token: "BQAbRL0blFDZqXnh3cfStCuM-Eox3mfSkKhyFkZYTbgQJbKpGl2zCiA7gEwJmGncDOW4mvIiN06XSoer9GrXtmuG9uvwipHj_-VLfQkWyijUTNzQdrMQfHZ67VFwdFnXa09W7qYSE6FRI8yTd9PFBArx0lpx4S616LuhxG9ThTj196S0k7sX41PHStQ3o9MunMonm1JIpVdjx-1f4Js3xhyF5MB5w5Llnrswhe0W_eDCrhwWjfoYsVEdUp6BQ64yOLleRv3-5ddOm5SRDJAPww"
     }
 
 
@@ -69,6 +72,7 @@ class Home extends Component {
         }
 
     }
+    
     componentDidUpdate = async (previousProps, previousState) => {
 
         if (previousState.selectedSongID != this.state.selectedSongID) {
@@ -110,18 +114,20 @@ class Home extends Component {
 
     }
 
-
+    searchHandler = () => {
+        this.state.searchBar ? this.setState({searchBar: false}) : this.setState({searchBar: true})
+    }
 
     render() {
         return (
             <Container fluid className="px-0">
-                <Row className="mx-0 main-section no-gutters">
+                <Row className="mx-0 main-section">
           
-                    <Sidebar query={this.state.query} queryHandler={this.queryHandler}></Sidebar>
+                    <Sidebar searchHandler={this.searchHandler}></Sidebar>
 
                 <Router>
                 <Route path="/" exact>
-                    <Mainpage selectedSongHandler={this.selectedSongHandler} songs={this.state.songs}></Mainpage>
+                    <Mainpage token={this.props.token} searchBar={this.state.searchBar} query={this.state.query} queryHandler={this.queryHandler} selectedSongHandler={this.selectedSongHandler} songs={this.state.songs}></Mainpage>
                    
                 </Route>
            
