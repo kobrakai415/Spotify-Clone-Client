@@ -4,6 +4,7 @@ import Mainpage from "./Mainpage.jsx"
 import Mediaplayer from "./Mediaplayer.jsx"
 import { Container, Row, Col } from "react-bootstrap"
 import { BrowserRouter as Router, Route } from 'react-router-dom'
+import Auth from "../components/Auth.js"
 
 
 class Home extends Component {
@@ -57,7 +58,6 @@ class Home extends Component {
         token: "BQAbRL0blFDZqXnh3cfStCuM-Eox3mfSkKhyFkZYTbgQJbKpGl2zCiA7gEwJmGncDOW4mvIiN06XSoer9GrXtmuG9uvwipHj_-VLfQkWyijUTNzQdrMQfHZ67VFwdFnXa09W7qYSE6FRI8yTd9PFBArx0lpx4S616LuhxG9ThTj196S0k7sX41PHStQ3o9MunMonm1JIpVdjx-1f4Js3xhyF5MB5w5Llnrswhe0W_eDCrhwWjfoYsVEdUp6BQ64yOLleRv3-5ddOm5SRDJAPww"
     }
 
-
     componentDidMount = async () => {
 
         try {
@@ -67,6 +67,8 @@ class Home extends Component {
             this.setState({ songs: json.data })
             console.log(json)
             
+            const token = await Auth(this.props.code)
+            console.log(token)
         } catch (error) {
             console.log(error)
         }
