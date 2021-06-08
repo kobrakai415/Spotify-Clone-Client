@@ -6,7 +6,6 @@ import { Container, Row, Col } from "react-bootstrap"
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import Auth from "../components/Auth.js"
 
-
 class Home extends Component {
 
     state = {
@@ -59,6 +58,7 @@ class Home extends Component {
     }
 
     componentDidMount = async () => {
+        
 
         try {
             let response = await fetch("https://striveschool-api.herokuapp.com/api/deezer/search?q=drake")

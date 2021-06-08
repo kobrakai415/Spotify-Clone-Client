@@ -93,3 +93,17 @@ body {
   height: 50px;
   width: 100px
 }
+
+.category-text-overlay {
+  position: absolute;
+  top: 70%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.category-container{
+  position: relative;
+  border-radius: 200px;
+}
+.category-container img {
+  border-radius: 10px;
+}

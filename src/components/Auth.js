@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import axios from "axios"
 import Mainpage from "./Mainpage"
+import Home from "./Home"
 
 export default function Auth(code) {
     const [accessToken, setAccessToken] = useState()
@@ -21,16 +22,13 @@ export default function Auth(code) {
             })
             .catch(() => {
                 window.location = "/"
-            }).catch(() => {
-                window.location = "/"
             })
     }, [code])
 
 
-
+    
     return (<>
-    <div>{accessToken}</div>
-    {accessToken && <Mainpage token={accessToken} ></Mainpage>}
+    {accessToken && <Home token={accessToken} ></Home>}
     </>)
 
 
