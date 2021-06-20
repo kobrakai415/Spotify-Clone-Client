@@ -1,8 +1,9 @@
 import { Component } from "react"
 import { Col, Row } from "react-bootstrap"
-import Category from "./Category.jsx"
+import Category from "./CategoryContainer.jsx"
 import SongContainer from "./SongContainer.jsx"
 
+const ApiUrl = process.env.REACT_APP_SPOTIFY_API
 
 class Mainpage extends Component {
 
@@ -19,7 +20,7 @@ class Mainpage extends Component {
  
     fetchBrowseAll = async () => {
         try {
-            let response = await fetch("https://api.spotify.com/v1/browse/categories", {
+            let response = await fetch(`${ApiUrl}/browse/categories`, {
                 headers: {
                     "Authorization": "Bearer " + this.props.token
                 }
@@ -41,7 +42,7 @@ class Mainpage extends Component {
 
     render() {
         return (
-            <Col className=" main-page main-page-mobile" xs={12} md={9} lg={10}>
+            <Col className="main-page main-page-mobile" xs={12} md={9} lg={10}>
             {<div id="search-bar-parent" onChange={(e) => this.props.queryHandler(e)}>
             <input id="search-bar" placeholder="Songs, Artists or Albums"/>
             <svg className="search-bar-glass" viewBox="0 0 512 512" width="24" height="24" xmlns="http://www.w3.org/2000/svg">

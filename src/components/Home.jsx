@@ -5,6 +5,7 @@ import Mediaplayer from "./Mediaplayer.jsx"
 import { Container, Row, Col } from "react-bootstrap"
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import Auth from "../components/Auth.js"
+import CategoryPage from "./CategoryPage.jsx"
 
 class Home extends Component {
 
@@ -131,6 +132,9 @@ class Home extends Component {
                 <Route path="/" exact>
                     <Mainpage token={this.props.token} searchBar={this.state.searchBar} query={this.state.query} queryHandler={this.queryHandler} selectedSongHandler={this.selectedSongHandler} songs={this.state.songs}></Mainpage>
                    
+                </Route>
+                <Route path="/category/:id">
+                    <CategoryPage token={this.props.token} />
                 </Route>
            
                 </Router>
