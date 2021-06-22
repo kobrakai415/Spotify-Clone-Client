@@ -1,7 +1,7 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Component } from "react"
-import Login from './components/login.jsx';
+import Login from './components/Login.jsx';
 import Auth from "./components/Auth.js"
 
 

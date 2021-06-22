@@ -6,6 +6,7 @@ import { Container, Row, Col } from "react-bootstrap"
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import Auth from "../components/Auth.js"
 import CategoryPage from "./CategoryPage.jsx"
+import PlaylistPage from "./PlaylistPage.jsx"
 
 class Home extends Component {
 
@@ -59,23 +60,21 @@ class Home extends Component {
     }
 
     componentDidMount = async () => {
-        
+
 
         try {
             let response = await fetch("https://striveschool-api.herokuapp.com/api/deezer/search?q=drake")
             let json = await response.json()
 
             this.setState({ songs: json.data })
-            console.log(json)
-            
-            const token = await Auth(this.props.code)
-            console.log(token)
+
+
         } catch (error) {
             console.log(error)
         }
 
     }
-    
+
     componentDidUpdate = async (previousProps, previousState) => {
 
         if (previousState.selectedSongID != this.state.selectedSongID) {
@@ -113,40 +112,36 @@ class Home extends Component {
 
     findSelectedSong = () => {
 
-       return this.state.songs.find(song => song.id.toString() === this.state.selectedSongID)
+        return this.state.songs.find(song => song.id.toString() === this.state.selectedSongID)
 
     }
 
     searchHandler = () => {
-        this.state.searchBar ? this.setState({searchBar: false}) : this.setState({searchBar: true})
+        this.state.searchBar ? this.setState({ searchBar: false }) : this.setState({ searchBar: true })
     }
 
     render() {
         return (
             <Container fluid className="px-0">
                 <Row className="mx-0 main-section">
-          
                     <Sidebar searchHandler={this.searchHandler}></Sidebar>
 
-                <Router>
-                <Route path="/" exact>
-                    <Mainpage token={this.props.token} searchBar={this.state.searchBar} query={this.state.query} queryHandler={this.queryHandler} selectedSongHandler={this.selectedSongHandler} songs={this.state.songs}></Mainpage>
-                   
-                </Route>
-                <Route path="/category/:id">
-                    <CategoryPage token={this.props.token} />
-                </Route>
-           
-                </Router>
+
+                    <Router>
+
+                        <Route path="/" exact render={(routerProps) => <Mainpage routerProps={routerProps} token={this.props.token} searchBar={this.state.searchBar} query={this.state.query} queryHandler={this.queryHandler} selectedSongHandler={this.selectedSongHandler} songs={this.state.songs}></Mainpage>} />
+
+                        <Route path="/category/:category" render={(routerProps) => <CategoryPage routerProps={routerProps} token={this.props.token} />} />
+
+                        <Route path="/playlist/:id" render={(routerProps) => <PlaylistPage routerProps={routerProps} token={this.props.token} />} />
+                    </Router>
 
 
-                <Col xs={12} className="media-player">
-                <Row className="mx-0">
-
-                    <Mediaplayer></Mediaplayer>
-                </Row>
-                    
-                </Col>
+                    <Col xs={12} className="media-player">
+                        <Row className="mx-0">
+                            <Mediaplayer />
+                        </Row>
+                    </Col>
                 </Row>
 
 

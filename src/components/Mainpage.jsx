@@ -26,12 +26,8 @@ class Mainpage extends Component {
                 }
             })
 
-            console.log(await this.props.token)
-            console.log(response)
-
             let json = await response.json()
 
-            console.log(json)
             this.setState({ browseAll: json.categories.items })
             
         } catch (error) {
