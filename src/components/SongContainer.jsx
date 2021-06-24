@@ -14,7 +14,7 @@ class SongContainer extends React.Component {
 
             <div key={this.props.song.id} className="mb-3 col-4 col-sm-3 col-md-2" >
            
-            <img id={this.props.song.artist.id} onClick={ () => this.props.history.push('./artist/' + this.props.song.artist.id)} className="img-fluid"  src={this.props.song.album.cover_xl}/>
+            <img id={this.props.song.artist.id} onClick={ () => this.props.history.push('./artist/' + this.props.song.artist.id)} className="img-fluid"  src={this.props.song.album.cover_xl} alt="song"/>
             
             <h6 id={this.props.song.id} onClick={(e) => {
             this.props.selectedSongHandler(e)

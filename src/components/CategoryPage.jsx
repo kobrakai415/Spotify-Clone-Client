@@ -33,19 +33,19 @@ const CategoryPage = (props) => {
 
     }
 
-    useEffect(async () => {
-        await fetchCatData()
+    useEffect( () => {
+         fetchCatData()
     }, [])
 
     return (
-        <Col  className="main-page main-page-mobile" xs={12} md={9} lg={10}>
-            <Row style={{position: "relative", height: "300px", backgroundColor: "green"}} className="mx-0 mb-3">
-                <h1 style={{position: "absolute", bottom: "0"}}>{category.charAt(0).toUpperCase() + category.slice(1)}</h1>
+        <Col  className="main-page main-page-mobile p-0" xs={12} md={9} lg={10}>
+            <Row className="category-banner mx-0 mb-3"  >
+                <h1 className="ps-4" style={{position: "absolute", bottom: "0"}}>{category.charAt(0).toUpperCase() + category.slice(1)}</h1>
             </Row>
-            <Row className="mx-0">
-            <h4>Popular playlists</h4>
-                {categoryData.length > 0 && categoryData.map(playlist => {
-                    return <PlaylistContainer playlist={playlist}></PlaylistContainer>
+            <Row className="mx-0 p-3">
+            <h4 className="my-4">Popular playlists</h4>
+                {categoryData.length > 0 && categoryData.map((playlist, index) => {
+                    return <PlaylistContainer key={index} playlist={playlist}></PlaylistContainer>
                 })}
             </Row>
         </Col>

@@ -4,7 +4,6 @@ import Mainpage from "./Mainpage.jsx"
 import Mediaplayer from "./Mediaplayer.jsx"
 import { Container, Row, Col } from "react-bootstrap"
 import { BrowserRouter as Router, Route } from 'react-router-dom'
-import Auth from "../components/Auth.js"
 import CategoryPage from "./CategoryPage.jsx"
 import PlaylistPage from "./PlaylistPage.jsx"
 
@@ -77,13 +76,13 @@ class Home extends Component {
 
     componentDidUpdate = async (previousProps, previousState) => {
 
-        if (previousState.selectedSongID != this.state.selectedSongID) {
+        if (previousState.selectedSongID !== this.state.selectedSongID) {
             let selected = await this.findSelectedSong()
             this.setState({ selectedSong: selected })
         }
 
         try {
-            if (previousState.query != this.state.query) {
+            if (previousState.query !== this.state.query) {
 
                 let response = await fetch("https://striveschool-api.herokuapp.com/api/deezer/search?q=" + this.state.query)
                 let json = await response.json()
