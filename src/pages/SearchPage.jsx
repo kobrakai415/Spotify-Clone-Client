@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react"
 import { Col, Row } from "react-bootstrap"
-import Category from "./CategoryContainer.jsx"
-import ArtistContainer from "./ArtistContainer.jsx"
+import Category from "../components/CategoryContainer.jsx"
+import ArtistContainer from "../components/ArtistContainer.jsx"
+import AlbumContainer from "../components/AlbumContainer.jsx"
+import PlaylistContainer from "../components/PlaylistContainer.jsx"
 
 
 const ApiUrl = process.env.REACT_APP_SPOTIFY_API
@@ -10,16 +12,16 @@ const Mainpage = (props) => {
 
     const [browseAll, setBrowseAll] = useState(null)
     const [query, setQuery] = useState("")
-    const [artistResults, setArtistResults] = useState(null)
-    const [albumResults, setAlbumResults] = useState(null)
-    const [trackResults, setTrackResults] = useState(null)
+    const [artistResults, setArtistResults] = useState([])
+    const [albumResults, setAlbumResults] = useState([])
+    const [playlistResults, setPlaylistResults] = useState([])
 
 
 
 
     const fetchBrowseAll = async () => {
         try {
-            let response = await fetch(`${ApiUrl}/browse/categories`, {
+            let response = await fetch(`${ApiUrl}/browse/categories?country=US`, {
                 headers: {
                     "Authorization": "Bearer " + props.token
                 }
@@ -46,7 +48,6 @@ const Mainpage = (props) => {
 
             if (response.ok) {
                 let json = await response.json()
-                console.log(json.artists.items)
                 setArtistResults(json.artists.items)
             }
         } catch (error) {
@@ -64,17 +65,17 @@ const Mainpage = (props) => {
 
             if (response.ok) {
                 let json = await response.json()
-
-                setAlbumResults(json)
+        
+                setAlbumResults(json.albums.items)
             }
         } catch (error) {
             console.log(error)
         }
     }
 
-    const fetchQueryTracks = async () => {
+    const fetchQueryPlaylists = async () => {
         try {
-            let response = await fetch(`${ApiUrl}/search?q=${query}&type=track`, {
+            let response = await fetch(`${ApiUrl}/search?q=${query}&type=playlist`, {
                 headers: {
                     "Authorization": "Bearer " + props.token
                 }
@@ -82,8 +83,8 @@ const Mainpage = (props) => {
 
             if (response.ok) {
                 let json = await response.json()
-
-                setTrackResults(json)
+                console.log(json)
+                setPlaylistResults(json.playlists.items)
             }
         } catch (error) {
             console.log(error)
@@ -97,9 +98,9 @@ const Mainpage = (props) => {
 
     useEffect(() => {
 
-        if (query.length > 0) {
+        if (query.length > 1) {
             fetchQueryArtists()
-            fetchQueryTracks()
+            fetchQueryPlaylists()
             fetchQueryAlbums()
         }
 
@@ -116,26 +117,42 @@ const Mainpage = (props) => {
             </div>
             <h3 className="py-3 px-2">Your Top Genres</h3>
 
-            <Row>
+            <Row className="mx-0">
 
 
-                {query.length > 0 && artistResults &&
+                {query.length > 0 && artistResults.length > 0 &&
                     <h3 className="py-3 px-2">Artists</h3>}
 
-                {artistResults && query.length > 0 ? artistResults.slice(0,5).map(artist => {
-                    return <ArtistContainer key={artist.id} artist={artist}></ArtistContainer>
-                }) : <h1>Loadsadfasdfasdfing</h1>}
+                {artistResults.length > 0 && query.length > 0 && artistResults.slice(0, 6).map(artist => {
+                    return <ArtistContainer key={artist.id} artist={artist} />
+                }) }
 
+
+
+                {query.length > 0 &&  albumResults.length > 0 && albumResults &&
+                    <h3 className="py-3 px-2">Albums</h3>}
+
+                {albumResults && query.length > 0 && albumResults.slice(0, 6).map(album => {
+                    return <AlbumContainer key={album.id} album={album} />
+                }) }
+
+
+
+                {query.length > 0 &&  playlistResults.length > 0 && playlistResults &&
+                    <h3 className="py-3 px-2">Playlists</h3>}
+
+                {playlistResults && query.length > 0 && playlistResults.slice(0, 6).map(playlist => {
+                    return <PlaylistContainer key={playlist.id} playlist={playlist} />
+                }) }
 
             </Row>
-            <h3 className="py-3 px-2">Albums</h3>
-
+     
 
 
             <Row className="mx-0">
-                <h3 className="py-3 px-2">Browse All</h3>
-                {browseAll && browseAll.map((item, index) => {
-                    return <Category key={index} cat={item}></Category>
+                {query.length === 0 && <h3 className="py-3 px-2">Browse All</h3>}
+                {browseAll && query.length === 0 && browseAll.map((item, index) => {
+                    return <Category key={index} cat={item} />
                 })}
             </Row>
         </Col>

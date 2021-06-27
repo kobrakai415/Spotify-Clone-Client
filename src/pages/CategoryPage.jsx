@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
 import { Col } from 'react-bootstrap';
-import PlaylistContainer from "./PlaylistContainer"
+import PlaylistContainer from "../components/PlaylistContainer"
 import { Row } from "react-bootstrap"
 
 const ApiUrl = process.env.REACT_APP_SPOTIFY_API
@@ -45,7 +45,7 @@ const CategoryPage = (props) => {
             <Row className="mx-0 p-3">
             <h4 className="my-4">Popular playlists</h4>
                 {categoryData.length > 0 && categoryData.map((playlist, index) => {
-                    return <PlaylistContainer key={index} playlist={playlist}></PlaylistContainer>
+                    return <PlaylistContainer key={playlist.id} playlist={playlist}></PlaylistContainer>
                 })}
             </Row>
         </Col>

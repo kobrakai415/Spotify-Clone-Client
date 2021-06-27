@@ -11,17 +11,11 @@ const code = new URLSearchParams(window.location.search).get("code")
 
 class App extends Component {
 
-  state = {
-    token: null,
-    
-  }
-
-  
   render() {
 
     return (
       <div className="App">
-        {code ? <Auth code={code}></Auth> : <Login></Login>}
+        {code ? <Auth code={code}/> : <Login/>}
       </div>
     );
   }

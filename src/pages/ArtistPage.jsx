@@ -6,26 +6,23 @@ import { durationCalculator } from '../helpers/duration';
 
 const ApiUrl = process.env.REACT_APP_SPOTIFY_API
 
-const PlaylistPage = (props) => {
+const ArtistPage = (props) => {
 
-    const [playlistData, setPlaylistData] = useState([])
-    const [playlistInfo, setPlaylistInfo] = useState(null)
+    const [artistData, setArtistData] = useState(null)
 
     const { id } = useParams()
 
-    const fetchPlaylistData = async () => {
+    const fetchArtistData = async () => {
         try {
 
-            const res = await fetch(`${ApiUrl}/playlists/${id}`, {
+            const res = await fetch(`${ApiUrl}/artists/${id}`, {
                 headers: {
                     "Authorization": "Bearer " + props.token
                 }
             })
             const json = await res.json()
-
-            setPlaylistData(json.tracks.items)
-            setPlaylistInfo({ ...json })
             console.log(json)
+            setArtistData(json)
 
         } catch (error) {
             console.log(error)
@@ -33,7 +30,7 @@ const PlaylistPage = (props) => {
     }
 
     useEffect(() => {
-        fetchPlaylistData()
+        fetchArtistData()
     }, [])
 
     return (
@@ -42,20 +39,20 @@ const PlaylistPage = (props) => {
                 <Col md={12}>
 
 
-                    {playlistInfo &&
+                    {artistData &&
                         <Row className="mt-5">
                             <Col className="d-flex justify-content-center" xs={12} md={4}>
 
-                                <img height="190px" src={playlistInfo.images[0].url} alt="playlist-cover" />
+                                <img height="190px" src={artistData.images[0]?.url} alt="playlist-cover" />
                             </Col>
                             <Col className="pt-5 text-center" xs={12} md={8}>
 
-                                <h1>{playlistInfo.name}</h1>
-                                <p>{playlistInfo.description}</p>
+                                <h1>{artistData.name}</h1>
+                                {/* <p>{artistData.description}</p> */}
                                 <div>
                                     <strong>Spotify • </strong>
-                                    <span>{playlistInfo.followers.total} likes • </span>
-                                    <span>{playlistInfo.tracks.items.length} songs, </span>
+                                    <span>{artistData.followers.total.toLocaleString()} monthly listeners • </span>
+                                    {/* <span>{artistData.tracks.items.length} songs, </span> */}
                                 </div>
                             </Col>
                         </Row>
@@ -63,7 +60,7 @@ const PlaylistPage = (props) => {
 
                 </Col>
 
-                <div className="col-12 mt-5" variant="dark">
+                {/* <div className="col-12 mt-5" variant="dark">
                     <div className="row mx-0">
 
                         <p className="col-2 col-md-1">#</p>
@@ -87,11 +84,11 @@ const PlaylistPage = (props) => {
                         )
                     })}
 
-                </div>
+                </div> */}
             </Row>
         </Col>
 
     );
 }
 
-export default PlaylistPage;
+export default ArtistPage;

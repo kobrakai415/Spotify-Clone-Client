@@ -1,6 +1,6 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
-import Home from "./Home"
+import Home from "../pages/Dashboard"
 
 export default function Auth(code) {
     const [accessToken, setAccessToken] = useState()
