@@ -4,8 +4,9 @@ import { Col, Row } from "react-bootstrap"
 import PlaylistItem from '../components/PlaylistItem';
 import { CgPlayButton } from "react-icons/cg"
 import { IoMdHeart } from "react-icons/io"
+import { BiPause} from "react-icons/bi"
 import { connect } from 'react-redux';
-import { addPlaylistToFavourites, removePlaylistFromFavourites } from "../actions/index.js"
+import { addPlaylistToFavourites, removePlaylistFromFavourites, playPause } from "../redux/actions/index.js"
 
 
 const ApiUrl = process.env.REACT_APP_SPOTIFY_API
@@ -16,9 +17,11 @@ const mapStateToProps = (state) => state
 const mapDispatchToProps = (dispatch) => ({
     unFavourite: (playlist) => { dispatch(removePlaylistFromFavourites(playlist)) },
     favourite: (playlist) => { dispatch(addPlaylistToFavourites(playlist)) },
+    playPause: () => { dispatch(playPause()) }
 })
 
-const PlaylistPage = ({ token, unFavourite, favourite }) => {
+
+const PlaylistPage = ({ token, unFavourite, favourite, media, playPause}) => {
 
     const [playlistData, setPlaylistData] = useState([])
     const [playlistInfo, setPlaylistInfo] = useState(null)
@@ -59,7 +62,7 @@ const PlaylistPage = ({ token, unFavourite, favourite }) => {
                         <Row className="mt-5">
                             <Col className="d-flex justify-content-center" xs={12} md={4}>
 
-                                <img height="190px" src={playlistInfo.images[0].url} alt="playlist-cover" />
+                                <img height="190px" src={playlistInfo.images[0]?.url} alt="playlist-cover" />
                             </Col>
                             <Col className="pt-5 text-center" xs={12} md={8}>
 
@@ -80,7 +83,9 @@ const PlaylistPage = ({ token, unFavourite, favourite }) => {
                     <Row className="pb-3">
                         <Col xs={12}>
 
-                            <CgPlayButton className="me-4" style={{ fontSize: "55px", backgroundColor: "1db954", borderRadius: "50%" }} />
+                            {!media.play && <CgPlayButton onClick={playPause} className="me-4" style={{ fontSize: "55px", backgroundColor: "1db954", borderRadius: "50%" }} />}
+                            {media.play && <BiPause onClick={playPause} className="me-4" style={{ fontSize: "55px", backgroundColor: "1db954", borderRadius: "50%" }}/>}
+                            
                             {liked && <IoMdHeart className="me-4" style={{ fontSize: "35px", color: "1db954" }} onClick={() => { unFavourite(playlistInfo); setLiked(false) }} />}
                             {!liked && <IoMdHeart className="me-4" style={{ fontSize: "35px", }} onClick={() => { favourite(playlistInfo); setLiked(true) }} />}
                             <svg fill="grey" role="img" height="32" width="32" viewBox="0 0 32 32" className="Svg-sc__sc-1bi12j5-0 hPiOwj">
@@ -106,7 +111,7 @@ const PlaylistPage = ({ token, unFavourite, favourite }) => {
                     <hr className="my-0"></hr>
                     {playlistData && playlistData.map((song, index) => {
 
-                        return <PlaylistItem key={song.id} song={song} index={index}></PlaylistItem>
+                        return <PlaylistItem key={index} song={song} index={index} ></PlaylistItem>
 
                     })}
 

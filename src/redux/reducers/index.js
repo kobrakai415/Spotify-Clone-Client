@@ -45,14 +45,21 @@ export const favouritesReducer = (state = initialState.favourites, action) => {
 
 
 
-export const currentSongReducer = (state = initialState.currentsong, action) => {
+export const mediaReducer = (state = initialState.media, action) => {
 
     switch (action.type) {
         case "SET_CURRENT_SONG":
             return {
                 ...state,
-                playingNow: { ...action.payload }
+                selectedSong: { ...action.payload }
             }
+        
+        case "PLAY_PAUSE": 
+            return {
+                ...state, 
+                play: !state.play
+            }
+            
         default:
             return state
 

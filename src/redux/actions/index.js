@@ -21,10 +21,26 @@ export const removePlaylistFromFavourites = (playlist) => ({
   payload: playlist,
 })
 
+export const addAlbumToFavourites = (album) => ({
+  type: 'ADD_ALBUM_TO_FAVOURITES',
+  payload: album,
+})
+
+export const removeAlbumFromFavourites = (album) => ({
+  type: 'REMOVE_AlBUM_FROM_FAVOURITES',
+  payload: album,
+})
+
+
 export const setCurrentSong = (track) => ({
   type: 'SET_CURRENT_SONG',
   payload: track,
 })
+
+export const playPause = () => ({
+  type: 'PLAY_PAUSE'
+})
+
 
 
 export const getVacancies = (query) => {

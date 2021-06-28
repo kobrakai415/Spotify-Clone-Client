@@ -4,6 +4,7 @@ import Category from "../components/CategoryContainer.jsx"
 import ArtistContainer from "../components/ArtistContainer.jsx"
 import AlbumContainer from "../components/AlbumContainer.jsx"
 import PlaylistContainer from "../components/PlaylistContainer.jsx"
+import SearchPlaylistContainer from "../components/SearchPlaylistContainer.jsx"
 
 
 const ApiUrl = process.env.REACT_APP_SPOTIFY_API
@@ -142,7 +143,7 @@ const Mainpage = (props) => {
                     <h3 className="py-3 px-2">Playlists</h3>}
 
                 {playlistResults && query.length > 0 && playlistResults.slice(0, 6).map(playlist => {
-                    return <PlaylistContainer key={playlist.id} playlist={playlist} />
+                    return <SearchPlaylistContainer key={playlist.id} playlist={playlist} />
                 }) }
 
             </Row>

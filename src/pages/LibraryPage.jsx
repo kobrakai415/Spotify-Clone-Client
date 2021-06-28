@@ -14,7 +14,7 @@ const LibraryPage = ({favourites}) => {
     const [selected, setSelected] = useState("Playlists")
 
     return (
-
+        
         <Col className="main-page main-page-mobile p-0" xs={12} md={9} lg={10}>
             <Row className="mx-0 mb-3"  >
                 <Col className="d-flex ps-sm-5 pt-4 pb-4" xs={12}>

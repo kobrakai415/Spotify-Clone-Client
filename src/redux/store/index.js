@@ -1,5 +1,5 @@
 import { createStore, combineReducers, applyMiddleware, compose } from "redux"
-import { favouritesReducer, currentSongReducer } from "../reducers"
+import { favouritesReducer, mediaReducer } from "../reducers"
 import thunk from "redux-thunk"
 
 export const initialState = {
@@ -9,16 +9,17 @@ export const initialState = {
         albums: [],
         playlists: []
     },
-    currentsong: {
-        playingNow: {},
+    media: {
+        selectedSong: {},
         queue: [],
+        play: false,
     }
 }
 
 const mainReducer = combineReducers(
     {
         favourites: favouritesReducer,
-        currentSong: currentSongReducer
+        media: mediaReducer
     }
 )
 
