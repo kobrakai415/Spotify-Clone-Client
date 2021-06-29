@@ -1,9 +1,8 @@
-import { useState, useEffect } from "react"
+import { useEffect, useState } from "react"
 import { Col, Row } from "react-bootstrap"
-import Category from "../components/CategoryContainer.jsx"
-import ArtistContainer from "../components/ArtistContainer.jsx"
 import AlbumContainer from "../components/AlbumContainer.jsx"
-import PlaylistContainer from "../components/PlaylistContainer.jsx"
+import ArtistContainer from "../components/ArtistContainer.jsx"
+import Category from "../components/CategoryContainer.jsx"
 import SearchPlaylistContainer from "../components/SearchPlaylistContainer.jsx"
 
 
@@ -22,7 +21,7 @@ const Mainpage = (props) => {
 
     const fetchBrowseAll = async () => {
         try {
-            let response = await fetch(`${ApiUrl}/browse/categories?country=US`, {
+            let response = await fetch(`${ApiUrl}/browse/categories?country=GB`, {
                 headers: {
                     "Authorization": "Bearer " + props.token
                 }
@@ -109,7 +108,7 @@ const Mainpage = (props) => {
 
 
     return (
-        <Col className="main-page main-page-mobile" xs={12} md={9} lg={10}>
+        <Col className="main-page main-page-mobile p-3" xs={12} md={9} lg={10}>
             <div id="search-bar-parent">
                 <input id="search-bar" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Songs, Artists or Albums" />
                 <svg className="search-bar-glass" viewBox="0 0 512 512" width="24" height="24" xmlns="http://www.w3.org/2000/svg">

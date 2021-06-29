@@ -77,7 +77,7 @@ const AlbumPage = (props) => {
 
                 </Col>
 
-                <Col className=" mt-5">
+                <Col className="p-5 mt-5">
 
                     <Row className="pb-3">
                         <Col xs={12}>

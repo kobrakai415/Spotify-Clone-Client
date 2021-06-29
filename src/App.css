@@ -6,11 +6,10 @@ body {
 .sidebar {
   background-color: black;
   padding-left: 25px;
-
 }
 
 a {
-   text-decoration: none;
+  text-decoration: none;
 }
 .sidebar-buttons a {
   color: #b3b3b3 !important;
@@ -29,7 +28,6 @@ a {
     order: 3;
     border-top: 1px #282828 solid;
     padding-left: 0px;
-   
   }
   .sidebar-buttons a {
     flex-direction: column;
@@ -50,10 +48,11 @@ a {
 .main-page {
   height: 91vh;
   overflow-y: scroll;
+
 }
 
 .media-player {
-  padding-top: 1em;  
+  padding-top: 1em;
   height: 9vh;
   border-top: 1px #282828 solid;
 }
@@ -95,7 +94,7 @@ a {
   top: 50%;
   left: 50%;
   height: 50px;
-  width: 100px
+  width: 100px;
 }
 
 .category-text-overlay {
@@ -104,7 +103,7 @@ a {
   left: 50%;
   transform: translateX(-50%);
 }
-.category-container{
+.category-container {
   position: relative;
   border-radius: 200px;
 }
@@ -112,10 +111,11 @@ a {
   border-radius: 10px;
 }
 
-.category-banner{
+.category-banner {
   position: relative;
   height: 300px;
-  background-color: rgb(147, 184, 110);
+  background: rgb(18,18,18);
+  background: linear-gradient(0deg, rgba(18,18,18,0.577468487394958) 0%, rgba(110,237,10,0.5662640056022409) 100%);
 }
 
 /* .playlist-item{
@@ -125,44 +125,50 @@ a {
 } */
 
 .playlist-item:hover {
-  background-color: grey; 
-  border-radius: 5px 
-  
+  background-color: #333;
+  border-radius: 5px;
 }
 
-.library-links{
+.library-links {
   text-decoration: none;
   color: white;
-  font-weight: 700
+  font-weight: 700;
 }
 
 .library-links:hover {
   cursor: pointer;
   color: white;
 }
-.selected{
-
-  background-color: #333; 
-  border-radius: 5px 
-
+.selected {
+  background-color: #333;
+  border-radius: 5px;
 }
 
 .library-links:visited {
-  background-color: grey; 
-  border-radius: 5px 
+  background-color: grey;
+  border-radius: 5px;
 }
 
 /* .wrapper:hover{
   transform: scale(1.1);
 } */
 
-.card-container{
+.card-container {
   max-width: 14rem;
-  width: 14rem; 
-  background-color: #181818
+  width: 14rem;
+  background-color: #181818;
 }
 
-.card-container:hover{
-  background-color: #696969; 
-  
+.card-container:hover {
+  background-color: #696969;
+}
+
+.playlist-item-name > * {
+  font-size: 15px;
+}
+
+.fade-bg {
+  height: 58vh;
+  background: rgb(18,18,18);
+  background: linear-gradient(0deg, rgba(18,18,18,0.577468487394958) 24%, rgba(110,237,10,0.5662640056022409) 100%);
 }

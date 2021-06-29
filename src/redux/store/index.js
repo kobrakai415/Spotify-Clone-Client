@@ -1,6 +1,7 @@
 import { createStore, combineReducers, applyMiddleware, compose } from "redux"
 import { favouritesReducer, mediaReducer } from "../reducers"
 import thunk from "redux-thunk"
+import initialSong from "../initialSong.json"
 
 export const initialState = {
 
@@ -10,7 +11,7 @@ export const initialState = {
         playlists: []
     },
     media: {
-        selectedSong: {},
+        selectedSong: initialSong,
         queue: [],
         play: false,
     }

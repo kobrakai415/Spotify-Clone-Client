@@ -1,42 +1,61 @@
-import { Component, useState, useEffect, createRef } from "react"
+import { useState, useEffect, createRef } from "react"
 import { Col } from "react-bootstrap"
 import { connect } from "react-redux"
-import { playPause } from "../redux/actions"
+import { AiOutlineHeart, AiFillHeart } from "react-icons/ai"
+import { addTrackToFavourites, playPause, removeTrackFromFavourites, setCurrentSong } from '../redux/actions';
+import { durationCalculator } from "../helpers/duration";
 
 const mapStateToProps = (state) => state
 
 const mapDispatchToProps = (dispatch) => ({
-    playPause: () => { dispatch(playPause()) }
-
+    playPause: () => { dispatch(playPause()) },
+    favourite: (track) => { dispatch(addTrackToFavourites(track)) },
+    unFavourite: (track) => { dispatch(removeTrackFromFavourites(track)) }
 })
 
 
 const Mediaplayer = (props) => {
 
-    const [play, setPlay] = useState(false)
+    const [volume, setVolume] = useState(100)
+    const [currentTime, setCurrentTime] = useState(0)
 
-    const audioRef = createRef(null)
+    const audioRef = createRef()
 
     useEffect(() => {
-        const audio = audioRef.current
 
+        const audio = audioRef.current
         if (!audio) return
 
         props.media.play ? audio.play() : audio.pause()
-    }, [props.media.play])
+    }, [props.media.selectedSong, props.media.play])
 
+
+    useEffect(() => {
+        const audio = audioRef.current
+        audio.volume = volume / 100
+        console.log(audio.currentTime)
+    }, [volume])
+
+    useEffect(() => {
+        const audio = audioRef.current
+        audio.addEventListener("timeupdate", (event) => {
+            setCurrentTime(event.currentTarget.currentTime);
+        });
+    }, [])
     return (
         <>
-            <Col xs={5} md={4} className="media-left d-flex align-items-center ">
+            <Col xs={5} md={4} className="media-left d-flex align-items-center">
 
                 <img height="40px" width="40px" src={props.media.selectedSong.track?.album.images[2].url || "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1200px-Image_created_with_a_mobile_phone.png"} alt="song-cover" />
 
-                <div className="d-flex flex-column ms-3">
+                <div className="d-flex flex-column ms-3 text-truncate">
                     <span className="text-truncate">{props.media.selectedSong.track?.name}</span>
-                    <small className="text-muted text-truncate">{props.media.selectedSong.track?.artists[0].name}</small>
+                    <small className="text-truncate text-muted">{props.media.selectedSong.track?.artists[0].name}</small>
                 </div>
                 <div className="d-flex justify-content-end px-3">
-                    <svg className="d-none d-sm-flex m-2" role="img" height="16" width="16" viewBox="0 0 16 16"><path fill="currentcolor" d="M13.764 2.727a4.057 4.057 0 00-5.488-.253.558.558 0 01-.31.112.531.531 0 01-.311-.112 4.054 4.054 0 00-5.487.253A4.05 4.05 0 00.974 5.61c0 1.089.424 2.113 1.168 2.855l4.462 5.223a1.791 1.791 0 002.726 0l4.435-5.195A4.052 4.052 0 0014.96 5.61a4.057 4.057 0 00-1.196-2.883zm-.722 5.098L8.58 13.048c-.307.36-.921.36-1.228 0L2.864 7.797a3.072 3.072 0 01-.905-2.187c0-.826.321-1.603.905-2.187a3.091 3.091 0 012.191-.913 3.05 3.05 0 011.957.709c.041.036.408.351.954.351.531 0 .906-.31.94-.34a3.075 3.075 0 014.161.192 3.1 3.1 0 01-.025 4.403z"></path></svg>
+                    {props.favourites.tracks.some(item => item.track?.id == props.media.selectedSong.track?.id) ? <AiFillHeart className="m-2" style={{ fontSize: "16px", color: "1db954" }} onClick={() => { props.unFavourite(props.media.selectedSong); }} />
+                        : <AiOutlineHeart className="m-2" style={{ fontSize: "16px" }} onClick={() => { props.favourite(props.media.selectedSong); }} />}
+
                     <svg className="d-none d-sm-flex m-2" role="img" width="16" height="16" xmlns="http://www.w3.org/2000/svg"><g fill="currentColor" fillRule="evenodd"><path d="M1 3v9h14V3H1zm0-1h14a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z" fillRule="nonzero"></path><path d="M10 8h4v3h-4z"></path></g></svg>
                 </div>
 
@@ -53,8 +72,8 @@ const Mediaplayer = (props) => {
                         </svg>}
 
                         {props.media.play && <svg id="pause" onClick={() => props.playPause()} role="img" height="16" width="16" viewBox="0 0 16 16" className="Svg-sc__sc-1bi12j5-0 hPiOwj">
-                        <path fill="none" d="M0 0h16v16H0z"></path>
-                        <path d="M3 2h3v12H3zm7 0h3v12h-3z"></path>
+                            <path fill="none" d="M0 0h16v16H0z"></path>
+                            <path d="M3 2h3v12H3zm7 0h3v12h-3z"></path>
                         </svg>}
 
 
@@ -66,13 +85,18 @@ const Mediaplayer = (props) => {
                 </div>
 
                 <div className="d-flex align-items-center">
-                    <span className="currentTime">0:00</span>
+                    <span className="currentTime">
+                        {parseFloat(currentTime / 60).toFixed(2)
+                            .split(".")
+                            .join(":")
+                            || "0:00"}
+                    </span>
 
                     <div className="mx-3 progress-bar" style={{ height: "2px", width: "90%", backgroundColor: "#b3b3b3" }} role="progressbar" aria-valuenow={0} aria-valuemin={0} aria-valuemax={100}>
-                        <audio id="audio" src={props.media.selectedSong.track?.preview_url} ref={audioRef}>
+                        <audio id="audio" src={props.media.selectedSong.track.preview_url || null} ref={audioRef}>
                         </audio>
                     </div>
-                    <span className="duration">{ }</span>
+                    <span className="duration">{durationCalculator(props.media.selectedSong.track.duration_ms)}</span>
                 </div>
 
             </Col>
@@ -81,7 +105,7 @@ const Mediaplayer = (props) => {
                 <div className="p-2">
                     <svg role="presentation" height="16" width="16" aria-label="Volume high" id="volume-icon" viewBox="0 0 16 16" className="Svg-ulyrgf-0 cMigZB"><path fill="currentcolor" d="M12.945 1.379l-.652.763c1.577 1.462 2.57 3.544 2.57 5.858s-.994 4.396-2.57 5.858l.651.763a8.966 8.966 0 00.001-13.242zm-2.272 2.66l-.651.763a4.484 4.484 0 01-.001 6.397l.651.763c1.04-1 1.691-2.404 1.691-3.961s-.65-2.962-1.69-3.962zM0 5v6h2.804L8 14V2L2.804 5H0zm7-1.268v8.536L3.072 10H1V6h2.072L7 3.732z"></path></svg>
                 </div>
-                <input className="volume-slider" type="range" style={{ height: "2px", backgroundColor: "#b3b3b3" }} defaultValue={100} />
+                <input value={volume} onChange={(e) => setVolume(e.target.value)} className="volume-slider" type="range" style={{ height: "2px", backgroundColor: "#b3b3b3" }} defaultValue={100} />
             </Col>
         </>
 

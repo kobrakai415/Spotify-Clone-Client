@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import { Col, Row } from "react-bootstrap"
 import {connect} from "react-redux"
 import PlaylistContainer from "../components/PlaylistContainer.jsx"
+import SearchPlaylistContainer from "../components/SearchPlaylistContainer"
 
 
 const mapStateToProps = (state) => state
@@ -15,7 +16,7 @@ const LibraryPage = ({favourites}) => {
 
     return (
         
-        <Col className="main-page main-page-mobile p-0" xs={12} md={9} lg={10}>
+        <Col className="main-page main-page-mobile p-3" xs={12} md={9} lg={10}>
             <Row className="mx-0 mb-3"  >
                 <Col className="d-flex ps-sm-5 pt-4 pb-4" xs={12}>
                     <a onClick={() => setSelected("Playlists")} className={selected === "Playlists" ? "selected library-links p-2" : "library-links p-2"}>Playlists</a>
@@ -27,7 +28,7 @@ const LibraryPage = ({favourites}) => {
             <h4>Playlists</h4>
                 {selected === "Playlists" && <h1>Playlists</h1> &&
                 favourites.playlists.map(playlist => {
-                    return <PlaylistContainer key={playlist.id} playlist={playlist} />
+                    return <SearchPlaylistContainer key={playlist.id} playlist={playlist} />
                 }) }
 
                 {/* {selected === "Albums" && favourites.albums.map(album => {
