@@ -1,10 +1,16 @@
-import React from "react"
+import React, {useEffect} from "react"
 import { Container } from "react-bootstrap"
 
+const clientId = process.env.REACT_APP_CLIENT_ID
+
 const AUTH_URL =
-  "https://accounts.spotify.com/authorize?client_id=ede976d713b14614b050b8afe5c3ac0c&response_type=code&redirect_uri=http://localhost:3000&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state"
+  `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=code&redirect_uri=http://localhost:3000&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state`
 
 export default function Login() {
+
+  useEffect(() => {
+    console.log(clientId)
+  }, [])
   return (
     <Container
       className="d-flex justify-content-center align-items-center"

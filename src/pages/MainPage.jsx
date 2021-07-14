@@ -10,6 +10,8 @@ const Mainpage = (props) => {
     const [latestReleases, setLatestReleases] = useState([])
     const [featuredPlaylists, setFeaturedPlaylists] = useState([])
 
+    const today = new Date()
+    const currentHour = today.getHours()
 
     const fetchLatestReleases = async () => {
         try {
@@ -56,8 +58,10 @@ const Mainpage = (props) => {
 
         <Col className="main-page main-page-mobile p-3" xs={12} md={9} lg={10}>
             <Row className="mx-0">
-
-                <h1 className="pt-5">Good Afternoon </h1>
+                {console.log(currentHour)}
+                {currentHour < 12 && <h1 className="pt-3">Good morning</h1>}
+                {currentHour >= 12 && currentHour < 18 && <h1 className="pt-3">Good afternoon</h1>}
+                {currentHour >= 18 && currentHour <= 24 && <h1 className="pt-3">Good evening</h1>}
 
                 {latestReleases.length > 0 && <>
 

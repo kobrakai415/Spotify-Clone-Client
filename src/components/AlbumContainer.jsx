@@ -4,15 +4,6 @@ import { Card } from "react-bootstrap"
 
 const AlbumContainer = (props) => {
 
-    const directToPlaylist = () => {
-        try {
-
-            props.history.push(`/playlist/`)
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
     return (
 
         <div className="d-flex justify-content-center wrapper align-items-center mb-4 col-6 col-sm-4 col-md-4 col-lg-3 col-xl-2">
@@ -23,7 +14,7 @@ const AlbumContainer = (props) => {
 
                     <Link to={`/album/${props.album?.id}`}>
                         <div className="d-flex justify-content-center">
-                            <img className="img-fluid w-100" style={{ maxHeight: "178px", maxWidth: "178px" }} height={140 } width={178} src={props.album.images[0]?.url || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9uvF65nH7m-aoxHulInp9xFBJjZsuZuOw1w&usqp=CAU"} alt="playlist-cover" />
+                            <img className="img-fluid w-100" style={{ maxHeight: "178px", maxWidth: "178px" }} height={178 } width={178} src={props.album.images[0]?.url || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9uvF65nH7m-aoxHulInp9xFBJjZsuZuOw1w&usqp=CAU"} alt="playlist-cover" />
                         </div>
                     </Link>
 

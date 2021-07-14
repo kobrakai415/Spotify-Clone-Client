@@ -4,45 +4,51 @@ import AlbumContainer from "../components/AlbumContainer.jsx"
 import ArtistContainer from "../components/ArtistContainer.jsx"
 import Category from "../components/CategoryContainer.jsx"
 import SearchPlaylistContainer from "../components/SearchPlaylistContainer.jsx"
+import { fetchBrowseAll } from "../redux/actions/index"
+import { connect } from "react-redux"
 
 
 const ApiUrl = process.env.REACT_APP_SPOTIFY_API
 
-const Mainpage = (props) => {
+const mapStateToProps = (state) => state
 
-    const [browseAll, setBrowseAll] = useState(null)
+const mapDispatchToProps = (dispatch) => ({
+    fetchBrowseAll: (token) => dispatch(fetchBrowseAll(token))
+})
+
+const Mainpage = ({ token, data, fetchBrowseAll}) => {
+
+    const browseAll = data.browseAllData
+
     const [query, setQuery] = useState("")
     const [artistResults, setArtistResults] = useState([])
     const [albumResults, setAlbumResults] = useState([])
     const [playlistResults, setPlaylistResults] = useState([])
 
+    // const fetchBrowseAll = async () => {
+    //     try {
+    //         let response = await fetch(`${ApiUrl}/browse/categories?country=GB`, {
+    //             headers: {
+    //                 "Authorization": "Bearer " + token
+    //             }
+    //         })
 
+    //         if (response.ok) {
+    //             let json = await response.json()
 
+    //             setBrowseAll(json.categories.items)
+    //         }
 
-    const fetchBrowseAll = async () => {
-        try {
-            let response = await fetch(`${ApiUrl}/browse/categories?country=GB`, {
-                headers: {
-                    "Authorization": "Bearer " + props.token
-                }
-            })
-
-            if (response.ok) {
-                let json = await response.json()
-
-                setBrowseAll(json.categories.items)
-            }
-
-        } catch (error) {
-            console.log(error)
-        }
-    }
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+    // }
 
     const fetchQueryArtists = async () => {
         try {
             let response = await fetch(`${ApiUrl}/search?q=${query}&type=artist`, {
                 headers: {
-                    "Authorization": "Bearer " + props.token
+                    "Authorization": "Bearer " + token
                 }
             })
 
@@ -59,13 +65,13 @@ const Mainpage = (props) => {
         try {
             let response = await fetch(`${ApiUrl}/search?q=${query}&type=album`, {
                 headers: {
-                    "Authorization": "Bearer " + props.token
+                    "Authorization": "Bearer " + token
                 }
             })
 
             if (response.ok) {
                 let json = await response.json()
-        
+
                 setAlbumResults(json.albums.items)
             }
         } catch (error) {
@@ -77,7 +83,7 @@ const Mainpage = (props) => {
         try {
             let response = await fetch(`${ApiUrl}/search?q=${query}&type=playlist`, {
                 headers: {
-                    "Authorization": "Bearer " + props.token
+                    "Authorization": "Bearer " + token
                 }
             })
 
@@ -93,7 +99,7 @@ const Mainpage = (props) => {
 
 
     useEffect(() => {
-        fetchBrowseAll()
+        fetchBrowseAll(token)
     }, [])
 
     useEffect(() => {
@@ -115,7 +121,7 @@ const Mainpage = (props) => {
                     <path d="M349.714 347.937l93.714 109.969-16.254 13.969-93.969-109.969q-48.508 36.825-109.207 36.825-36.826 0-70.476-14.349t-57.905-38.603-38.603-57.905-14.349-70.476 14.349-70.476 38.603-57.905 57.905-38.603 70.476-14.349 70.476 14.349 57.905 38.603 38.603 57.905 14.349 70.476q0 37.841-14.73 71.619t-40.889 58.921zM224 377.397q43.428 0 80.254-21.461t58.286-58.286 21.461-80.254-21.461-80.254-58.286-58.285-80.254-21.46-80.254 21.46-58.285 58.285-21.46 80.254 21.46 80.254 58.285 58.286 80.254 21.461z" fill="currentcolor"></path>
                 </svg>
             </div>
-            <h3 className="py-3 px-2">Your Top Genres</h3>
+
 
             <Row className="mx-0">
 
@@ -125,28 +131,26 @@ const Mainpage = (props) => {
 
                 {artistResults.length > 0 && query.length > 0 && artistResults.slice(0, 6).map(artist => {
                     return <ArtistContainer key={artist.id} artist={artist} />
-                }) }
+                })}
 
 
 
-                {query.length > 0 &&  albumResults.length > 0 && albumResults &&
+                {query.length > 0 && albumResults.length > 0 && albumResults &&
                     <h3 className="py-3 px-2">Albums</h3>}
 
                 {albumResults && query.length > 0 && albumResults.slice(0, 6).map(album => {
                     return <AlbumContainer key={album.id} album={album} />
-                }) }
+                })}
 
 
-
-                {query.length > 0 &&  playlistResults.length > 0 && playlistResults &&
+                {query.length > 0 && playlistResults.length > 0 && playlistResults &&
                     <h3 className="py-3 px-2">Playlists</h3>}
 
                 {playlistResults && query.length > 0 && playlistResults.slice(0, 6).map(playlist => {
                     return <SearchPlaylistContainer key={playlist.id} playlist={playlist} />
-                }) }
+                })}
 
             </Row>
-     
 
 
             <Row className="mx-0">
@@ -158,9 +162,8 @@ const Mainpage = (props) => {
         </Col>
 
 
-
     )
 
 }
 
-export default Mainpage
+export default connect(mapStateToProps, mapDispatchToProps)(Mainpage)

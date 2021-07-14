@@ -8,11 +8,12 @@ body {
   padding-left: 25px;
 }
 
-a {
-  text-decoration: none;
+a:hover {
+  color: white !important
 }
+
 .sidebar-buttons a {
-  color: #b3b3b3 !important;
+  color: #b3b3b3;
   padding: 10px 20px;
   font-weight: 600;
   font-size: 14px;
@@ -67,6 +68,11 @@ a {
   background-color: white;
   height: 32px;
   width: 32px;
+}
+
+#play:hover, #pause:hover {
+  -webkit-box-shadow: 3px 5px 25px 6px rgba(255,255,255,0.67); 
+  box-shadow: 3px 5px 25px 6px rgba(255,255,255,0.67);
 }
 
 #search-bar {
@@ -142,12 +148,11 @@ a {
 .selected {
   background-color: #333;
   border-radius: 5px;
+  color: white !important;
+  font-weight: 1100;
+  font-size: 16px !important
 }
 
-.library-links:visited {
-  background-color: grey;
-  border-radius: 5px;
-}
 
 /* .wrapper:hover{
   transform: scale(1.1);

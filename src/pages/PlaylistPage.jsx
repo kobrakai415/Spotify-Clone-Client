@@ -1,56 +1,51 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { Col, Row } from "react-bootstrap"
 import PlaylistItem from '../components/PlaylistItem';
 import { CgPlayButton } from "react-icons/cg"
 import { IoMdHeart } from "react-icons/io"
-import { BiPause} from "react-icons/bi"
+import { BiPause } from "react-icons/bi"
 import { connect } from 'react-redux';
-import { addPlaylistToFavourites, removePlaylistFromFavourites, playPause } from "../redux/actions/index.js"
-
-
-const ApiUrl = process.env.REACT_APP_SPOTIFY_API
-
+import { addPlaylistToFavourites, removePlaylistFromFavourites, playPause, setQueue, fetchPlaylistData, setCurrentSong } from "../redux/actions/index.js"
 
 const mapStateToProps = (state) => state
 
 const mapDispatchToProps = (dispatch) => ({
-    unFavourite: (playlist) => { dispatch(removePlaylistFromFavourites(playlist)) },
-    favourite: (playlist) => { dispatch(addPlaylistToFavourites(playlist)) },
-    playPause: () => { dispatch(playPause()) }
+    unFavourite: (playlist) => dispatch(removePlaylistFromFavourites(playlist)),
+    favourite: (playlist) => dispatch(addPlaylistToFavourites(playlist)),
+    playPause: () => dispatch(playPause()),
+    setQueue: (list) => dispatch(setQueue(list)),
+    fetch: (id, token) => dispatch(fetchPlaylistData(id, token)),
+    setPlaying: (track) => dispatch(setCurrentSong(track))
+
 })
 
+const PlaylistPage = ({ token, unFavourite, favourite, media, playPause, favourites, setQueue, fetch, data, setPlaying }) => {
 
-const PlaylistPage = ({ token, unFavourite, favourite, media, playPause, favourites}) => {
+    const playlistInfo = data.playlistData
 
-    const [playlistData, setPlaylistData] = useState([])
-    const [playlistInfo, setPlaylistInfo] = useState(null)
-
+    const playlistData = data.playlistData?.tracks.items
 
     const { id } = useParams()
 
-    const fetchPlaylistData = async () => {
-        try {
+    const playlistPlayHandler = () => {
+        const songToPlay = playlistData.find(item => item.track?.preview_url !== null)
 
-            const res = await fetch(`${ApiUrl}/playlists/${id}`, {
-                headers: {
-                    "Authorization": "Bearer " + token
-                }
-            })
-            const json = await res.json()
+        if (songToPlay) {
 
-            setPlaylistData(json.tracks.items)
-            setPlaylistInfo({ ...json })
-            console.log(json)
+            setPlaying(songToPlay.track)
+            playPause()
+        } else {
+            return
 
-        } catch (error) {
-            console.log(error)
         }
     }
 
-    useEffect(() => {
-        fetchPlaylistData()
-    }, [])
+    useEffect(async () => {
+        fetch(id, token)
+
+    }, [id])
+
 
     return (
         <Col className="main-page main-page-mobile p-0 " xs={12} md={9} lg={10}>
@@ -62,7 +57,7 @@ const PlaylistPage = ({ token, unFavourite, favourite, media, playPause, favouri
                         <Row className="mt-5 ">
                             <Col className="d-flex justify-content-center" xs={12} md={4}>
 
-                                <img height="190px" src={playlistInfo.images[0]?.url} alt="playlist-cover" />
+                                <img className="shadow-lg " height="190px" src={playlistInfo.images[0]?.url} alt="playlist-cover" />
                             </Col>
                             <Col className="pt-5 text-center" xs={12} md={8}>
 
@@ -71,7 +66,7 @@ const PlaylistPage = ({ token, unFavourite, favourite, media, playPause, favouri
                                 <div>
                                     <strong>Spotify • </strong>
                                     <span>{playlistInfo.followers.total.toLocaleString()} likes • </span>
-                                    <span>{playlistInfo.tracks.items.length} songs, </span>
+                                    <span>{playlistInfo.tracks.items.length} songs </span>
                                 </div>
                             </Col>
                         </Row>
@@ -79,23 +74,23 @@ const PlaylistPage = ({ token, unFavourite, favourite, media, playPause, favouri
 
                 </Col>
 
-                <Col xs={12} className="mt-5 p-5">
+                <Col xs={12} className="mt-5 p-3 p-md-5">
                     <Row className="pb-3">
                         <Col xs={12}>
 
-                            {!media.play && <CgPlayButton onClick={playPause} className="me-4" style={{ fontSize: "55px", backgroundColor: "1db954", borderRadius: "50%" }} />}
-                            {media.play && <BiPause onClick={playPause} className="me-4" style={{ fontSize: "55px", backgroundColor: "1db954", borderRadius: "50%" }}/>}
-                            
-                            {favourites.playlists.find(item => item.id === playlistInfo?.id) ? <IoMdHeart className="me-4" style={{ fontSize: "35px", color: "1db954" }} onClick={() => { unFavourite(playlistInfo)}} />
-                            : <IoMdHeart className="me-4" style={{ fontSize: "35px", }} onClick={() => { favourite(playlistInfo); }} />}
-                            
+                            {!media.play && <CgPlayButton onClick={playlistPlayHandler} className="me-4" style={{ fontSize: "55px", backgroundColor: "1db954", borderRadius: "50%" }} />}
+                            {media.play && <BiPause onClick={playPause} className="me-4" style={{ fontSize: "55px", backgroundColor: "1db954", borderRadius: "50%" }} />}
+
+                            {favourites.playlists.find(item => item.id === playlistInfo?.id) ? <IoMdHeart className="me-4" style={{ fontSize: "35px", color: "1db954" }} onClick={() => { unFavourite(playlistInfo) }} />
+                                : <IoMdHeart className="me-4" style={{ fontSize: "35px", }} onClick={() => { favourite(playlistInfo); }} />}
+
                             <svg fill="grey" role="img" height="32" width="32" viewBox="0 0 32 32" className="Svg-sc__sc-1bi12j5-0 hPiOwj">
                                 <path d="M5.998 13.999A2 2 0 105.999 18a2 2 0 00-.001-4zm10.001 0A2 2 0 1016 18a2 2 0 000-4zm10.001 0A2 2 0 1026.001 18 2 2 0 0026 14z"></path>
                             </svg>
                         </Col>
                     </Row>
 
-                    <Row className="mx-0 p-2">
+                    <Row className="mx-0 p-2 ">
 
                         <div className="text-muted col-2 col-md-1">#</div>
                         <div className="text-muted col-7 col-md-5 col-lg-4">TITLE</div>
@@ -109,11 +104,10 @@ const PlaylistPage = ({ token, unFavourite, favourite, media, playPause, favouri
                         </div>
 
                     </Row>
-                    <hr className="my-0"></hr>
-                    {playlistData && playlistData.map((song, index) => {
+                    <hr className="my-0 mb-2"></hr>
+                    {playlistData && playlistData.length > 0 && playlistData.map((song, index) => {
 
-                        return <PlaylistItem key={index} song={song} index={index} ></PlaylistItem>
-
+                        return <PlaylistItem key={index} song={song} index={index}></PlaylistItem>
                     })}
 
                 </Col>

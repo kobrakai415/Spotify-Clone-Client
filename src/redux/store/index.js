@@ -1,26 +1,40 @@
 import { createStore, combineReducers, applyMiddleware, compose } from "redux"
-import { favouritesReducer, mediaReducer } from "../reducers"
+import { favouritesReducer, mediaReducer, dataReducer } from "../reducers"
 import thunk from "redux-thunk"
 import initialSong from "../initialSong.json"
+import initialQueue from "../initialQueue.json"
 
 export const initialState = {
 
     favourites: {
         tracks: [],
         albums: [],
-        playlists: []
+        playlists: [],
+        artists: []
+
     },
     media: {
         selectedSong: initialSong,
-        queue: [],
+        queue: initialQueue,
         play: false,
+
+    },
+    data: {
+        loading: false,
+        playlistData: null,
+        browseAllData: null,
+        albumInfo: null,
+        albumData: [],
+        
+        
     }
 }
 
 const mainReducer = combineReducers(
     {
         favourites: favouritesReducer,
-        media: mediaReducer
+        media: mediaReducer,
+        data: dataReducer
     }
 )
 

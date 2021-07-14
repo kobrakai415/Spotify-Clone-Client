@@ -12,7 +12,7 @@ const ArtistContainer = (props) => {
                 <Card.Body>
 
                     <Link to={`/artist/${props.artist.id}`}>
-                        <img className="img-fluid w-100" style={{ borderRadius: "50%", maxHeight: "111px", }} height={125} width={125} src={props.artist.images[0]?.url || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9uvF65nH7m-aoxHulInp9xFBJjZsuZuOw1w&usqp=CAU"} alt="playlist-cover" />
+                        <img className="img-fluid w-100" style={{ borderRadius: "50%", maxHeight: "111px", }} height={111} width={125} src={props.artist.images[0]?.url || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9uvF65nH7m-aoxHulInp9xFBJjZsuZuOw1w&usqp=CAU"} alt="playlist-cover" />
                     </Link>
 
                     <div className="my-2">

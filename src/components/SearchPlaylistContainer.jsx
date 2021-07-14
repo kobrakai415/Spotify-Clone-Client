@@ -4,15 +4,6 @@ import {Card} from "react-bootstrap"
 
 const SearchPlaylistContainer = ({ playlist, history }) => {
 
-    const directToPlaylist = () => {
-        try {
-
-            history.push(`/playlist/${playlist.id}`)
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
     return (
 
         <div className="d-flex justify-content-center wrapper align-items-center mb-4 col-6 col-sm-4 col-md-4 col-lg-3 col-xl-2">
