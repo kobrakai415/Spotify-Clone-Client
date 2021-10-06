@@ -1,11 +1,11 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Modal, Button } from "react-bootstrap"
 import dateDiff from "../helpers/datediff"
 import { durationCalculator } from '../helpers/duration';
 import { BsPlayFill, BsFillPauseFill } from "react-icons/bs"
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai"
-import { addTrackToFavourites, playPause, removeTrackFromFavourites, setCurrentSong } from '../redux/actions';
+import { addTrackToFavourites, playPause, removeTrackFromFavourites, setCurrentSong, setQueue } from '../redux/actions';
 
 const mapStateToProps = (state) => state
 
@@ -13,10 +13,11 @@ const mapDispatchToProps = (dispatch) => ({
     favourite: (track) => { dispatch(addTrackToFavourites(track)) },
     unFavourite: (track) => { dispatch(removeTrackFromFavourites(track)) },
     setPlaying: (track) => { dispatch(setCurrentSong(track)) },
-    playPause: () => { dispatch(playPause()) }
+    playPause: () => { dispatch(playPause()) },
+    setQueue: (tracks) => { dispatch(setQueue(tracks)) }
 })
 
-const LikedSongsListItem = ({ song, index, favourites, favourite, unFavourite, setPlaying, media, playPause }) => {
+const LikedSongsListItem = ({ song, index, favourites, favourite, unFavourite, setPlaying, media, playPause, setQueue }) => {
 
     const [previewAvailable, setPreviewAvailable] = useState(true)
     const [show, setShow] = useState(false);
@@ -36,6 +37,10 @@ const LikedSongsListItem = ({ song, index, favourites, favourite, unFavourite, s
         }
     }
 
+    useEffect(() => {
+
+        setQueue(favourites.tracks)
+    }, [])
 
     return (
 
@@ -47,7 +52,7 @@ const LikedSongsListItem = ({ song, index, favourites, favourite, unFavourite, s
 
                     {!media.play && <BsPlayFill className="me-2" style={{ fontSize: "20px" }} onClick={playHandler} />}
 
-                    {media.play && media.selectedSong.id === song.id && <BsFillPauseFill className="me-2" style={{ fontSize: "20px" }} onClick={playHandler} />}
+                    {media.play && media.selectedSong.id === song.id && <BsFillPauseFill className="me-2" style={{ fontSize: "20px" }} onClick={playPause} />}
 
                     {media.play && media.selectedSong.id !== song.id && <BsPlayFill className="me-2" style={{ fontSize: "20px" }} onClick={playHandler} />}
                 </div>
@@ -68,7 +73,7 @@ const LikedSongsListItem = ({ song, index, favourites, favourite, unFavourite, s
                 {favourites.tracks.find(item => item?.id === song?.id) ? <AiFillHeart className="me-2" style={{ fontSize: "20px", color: "1db954" }} onClick={() => { unFavourite(song); }} />
                     : <AiOutlineHeart className="me-2" style={{ fontSize: "20px" }} onClick={() => { favourite(song); }} />}
                 {durationCalculator(song.duration_ms)}
-              
+
             </div>
 
 

@@ -17,7 +17,7 @@ export default function Login() {
       style={{ minHeight: "100vh" }}
     >
       <a className="btn btn-success btn-lg" href={AUTH_URL}>
-        Login With Spotify
+        Enter a world of Music!
       </a>
     </Container>
   )

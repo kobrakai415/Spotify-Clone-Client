@@ -14,7 +14,7 @@ const AlbumContainer = (props) => {
 
                     <Link to={`/album/${props.album?.id}`}>
                         <div className="d-flex justify-content-center">
-                            <img className="img-fluid w-100" style={{ maxHeight: "178px", maxWidth: "178px" }} height={178 } width={178} src={props.album.images[0]?.url || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9uvF65nH7m-aoxHulInp9xFBJjZsuZuOw1w&usqp=CAU"} alt="playlist-cover" />
+                            <img className="img-fluid w-100" style={{ height: "150px"}} src={props.album.images[0]?.url || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9uvF65nH7m-aoxHulInp9xFBJjZsuZuOw1w&usqp=CAU"} alt="playlist-cover" />
                         </div>
                     </Link>
 

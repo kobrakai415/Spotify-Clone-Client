@@ -20,7 +20,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 })
 
-const PlaylistPage = ({ token, unFavourite, favourite, media, playPause, favourites, setQueue, fetch, data, setPlaying }) => {
+const PlaylistPage = ({ token, unFavourite, favourite, media, playPause, favourites, fetch, data, setPlaying }) => {
 
     const playlistInfo = data.playlistData
 
@@ -32,6 +32,7 @@ const PlaylistPage = ({ token, unFavourite, favourite, media, playPause, favouri
         const songToPlay = playlistData.find(item => item.track?.preview_url !== null)
 
         if (songToPlay) {
+            console.log(songToPlay)
 
             setPlaying(songToPlay.track)
             playPause()
@@ -43,6 +44,7 @@ const PlaylistPage = ({ token, unFavourite, favourite, media, playPause, favouri
 
     useEffect(async () => {
         fetch(id, token)
+
 
     }, [id])
 
@@ -66,7 +68,7 @@ const PlaylistPage = ({ token, unFavourite, favourite, media, playPause, favouri
                                 <div>
                                     <strong>Spotify • </strong>
                                     <span>{playlistInfo.followers.total.toLocaleString()} likes • </span>
-                                    <span>{playlistInfo.tracks.items.length} songs </span>
+                                    <span>{playlistInfo.tracks.items.length} {playlistInfo.tracks.items.length > 1 ? "songs" : "song"} </span>
                                 </div>
                             </Col>
                         </Row>
@@ -79,7 +81,11 @@ const PlaylistPage = ({ token, unFavourite, favourite, media, playPause, favouri
                         <Col xs={12}>
 
                             {!media.play && <CgPlayButton onClick={playlistPlayHandler} className="me-4" style={{ fontSize: "55px", backgroundColor: "1db954", borderRadius: "50%" }} />}
-                            {media.play && <BiPause onClick={playPause} className="me-4" style={{ fontSize: "55px", backgroundColor: "1db954", borderRadius: "50%" }} />}
+                            {media.play && playlistData.some(item => item.track.id === media.selectedSong.id) &&
+                                <BiPause onClick={playPause} className="me-4" style={{ fontSize: "55px", backgroundColor: "1db954", borderRadius: "50%" }} />}
+
+                            {media.play && !playlistData.some(item => item.track.id === media.selectedSong.id) &&
+                                <CgPlayButton onClick={() => { playlistPlayHandler(); playPause() }} className="me-4" style={{ fontSize: "55px", backgroundColor: "1db954", borderRadius: "50%" }} />}
 
                             {favourites.playlists.find(item => item.id === playlistInfo?.id) ? <IoMdHeart className="me-4" style={{ fontSize: "35px", color: "1db954" }} onClick={() => { unFavourite(playlistInfo) }} />
                                 : <IoMdHeart className="me-4" style={{ fontSize: "35px", }} onClick={() => { favourite(playlistInfo); }} />}

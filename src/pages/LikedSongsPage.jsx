@@ -21,15 +21,16 @@ const mapDispatchToProps = (dispatch) => ({
 
 const LikedSongsPage = ({ media, favourites, playPause, setPlaying, }) => {
 
-    const playlistPlayHandler = () => {
-        if (favourites.tracks[0]) {
-            const songToPlay = favourites.tracks[0]
+    const playHandler = () => {
+        const songToPlay = favourites.tracks.find(item => item.preview_url !== null)
+        if (songToPlay) {
             setPlaying(songToPlay)
             playPause()
+        } else {
+            return
         }
-
     }
-    
+
 
     return (
         <Col className="main-page main-page-mobile p-0" xs={12} md={9} lg={10}>
@@ -47,8 +48,8 @@ const LikedSongsPage = ({ media, favourites, playPause, setPlaying, }) => {
                             <h1>Liked Songs</h1>
 
                             <div>
-                                <strong>kaiwankadir • </strong>
-                                <span>{favourites.tracks.length > 0 ? favourites.tracks.length + " songs" : ""} </span>
+                                <strong>kaiwankadir </strong>
+                                <span>{favourites.tracks.length > 0 ? "• " + favourites.tracks.length + " songs" : ""} </span>
                             </div>
                         </Col>
                     </Row>
@@ -60,9 +61,13 @@ const LikedSongsPage = ({ media, favourites, playPause, setPlaying, }) => {
                         <Row className="pb-3">
                             <Col xs={12}>
 
-                                {!media.play && <CgPlayButton onClick={playlistPlayHandler} className="me-4" style={{ fontSize: "55px", backgroundColor: "1db954", borderRadius: "50%" }} />}
-                                {media.play && <BiPause onClick={playPause} className="me-4" style={{ fontSize: "55px", backgroundColor: "1db954", borderRadius: "50%" }} />}
+                                {!media.play &&
+                                    <CgPlayButton onClick={playHandler} className="me-4" style={{ fontSize: "55px", backgroundColor: "1db954", borderRadius: "50%" }} />}
+                                {media.play && favourites.tracks.some(item => item.id === media.selectedSong.id) &&
+                                    <BiPause onClick={playPause} className="me-4" style={{ fontSize: "55px", backgroundColor: "1db954", borderRadius: "50%" }} />}
 
+                                {media.play && !favourites.tracks.some(item => item.id === media.selectedSong.id) &&
+                                    <CgPlayButton onClick={() => {playHandler(); playPause();}} className="me-4" style={{ fontSize: "55px", backgroundColor: "1db954", borderRadius: "50%" }} />}
 
                             </Col>
                         </Row>

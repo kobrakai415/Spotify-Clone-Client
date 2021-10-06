@@ -1,6 +1,6 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
-import Home from "../pages/Dashboard"
+import Dashboard from "../pages/Dashboard"
 
 export default function Auth(code) {
     const [accessToken, setAccessToken] = useState()
@@ -27,7 +27,7 @@ export default function Auth(code) {
 
     
     return (<>
-    {accessToken && <Home token={accessToken} ></Home>}
+    {accessToken && <Dashboard token={accessToken} ></Dashboard>}
     </>)
 
 

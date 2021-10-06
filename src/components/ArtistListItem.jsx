@@ -46,7 +46,7 @@ const ArtistListItem = ({ song, index, media, favourites, playPause, setPlaying,
                 <div>
                     {!media.play && <BsPlayFill className="me-2" style={{ fontSize: "20px" }} onClick={playHandler} />}
 
-                    {media.play && media.selectedSong.id === song.id && <BsFillPauseFill className="me-2" style={{ fontSize: "20px" }} onClick={playHandler} />}
+                    {media.play && media.selectedSong.id === song.id && <BsFillPauseFill className="me-2" style={{ fontSize: "20px" }} onClick={playPause} />}
 
                     {media.play && media.selectedSong.id !== song.id && <BsPlayFill className="me-2" style={{ fontSize: "20px" }} onClick={playHandler} />}
                 </div>

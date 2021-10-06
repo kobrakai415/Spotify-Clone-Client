@@ -25,6 +25,7 @@ export const initialState = {
         browseAllData: null,
         albumInfo: null,
         albumData: [],
+        topTracks: [],
         
         
     }

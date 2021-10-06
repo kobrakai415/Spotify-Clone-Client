@@ -81,6 +81,10 @@ export const setAlbumData = (data) => ({
   payload: data
 })
 
+export const setTopTracks = (data) => ({
+  type: 'SET_TOP_TRACKS',
+  payload: data
+})
 
 
 export const fetchPlaylistData = (id, token) => {
@@ -119,7 +123,7 @@ export const fetchBrowseAll = (token) => {
       })
 
       if (response.ok) {
-        let json = await response.json()
+        const json = await response.json()
 
         dispatch(setBrowseAllData(json.categories.items))
       }
@@ -145,6 +149,39 @@ export const fetchAlbumData = (id, token) => {
       dispatch(setAlbumInfo({ ...json }))
       dispatch(setAlbumData(json.tracks.items))
 
+      const tracksWithImages = json.tracks.items.map(item => {
+        return {
+          ...item,
+          album: {
+            images: [...json.images]
+          }
+        }
+      })
+      console.log(tracksWithImages)
+      dispatch(setQueue(tracksWithImages))
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+export const fetchTopTracks = (id, token) => {
+  return async (dispatch) => {
+    try {
+
+      const res = await fetch(`${ApiUrl}/artists/${id}/top-tracks?country=GB`, {
+        headers: {
+          "Authorization": "Bearer " + token
+        }
+      })
+
+      if (res.ok) {
+        const json = await res.json()
+
+        dispatch(setTopTracks( json.tracks))
+        dispatch(setQueue(json.tracks))
+      }
+    
     } catch (error) {
       console.log(error)
     }

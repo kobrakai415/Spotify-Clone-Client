@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router';
 import { Col, Row } from "react-bootstrap"
 import { CgPlayButton } from "react-icons/cg"
@@ -18,25 +18,36 @@ const mapDispatchToProps = (dispatch) => ({
     favouriteTrack: (track) => { dispatch(addTrackToFavourites(track)) },
     unFavouriteTrack: (track) => { dispatch(removeTrackFromFavourites(track)) },
     setPlaying: (track) => { dispatch(setCurrentSong(track)) },
-    fetchAlbumData: (id,token) => dispatch(fetchAlbumData(id, token))
+    fetchAlbumData: (id, token) => dispatch(fetchAlbumData(id, token))
 
 })
-
-const ApiUrl = process.env.REACT_APP_SPOTIFY_API
 
 const AlbumPage = ({ token, media, favourites, favouriteAlbum, unFavouriteAlbum, favouriteTrack, unFavouriteTrack, playPause, setPlaying, fetchAlbumData, data }) => {
 
     const albumInfo = data.albumInfo
     const albumData = data.albumData
-    
+
     const { id } = useParams()
 
-    
+    const playHandler = () => {
+        const songToPlay = albumData.find(item => item.track?.preview_url !== null)
+
+        if (songToPlay) {
+         
+            setPlaying({ ...songToPlay, album: { images: [...albumInfo.images] } });
+            playPause()
+        } else {
+            return
+
+        }
+    }
+
     useEffect(() => {
         fetchAlbumData(id, token)
+
     }, [id])
 
-    
+
     return (
         <Col className="main-page main-page-mobile p-0" xs={12} md={9} lg={10}>
             <Row className="mx-0 fade-bg">
@@ -56,7 +67,7 @@ const AlbumPage = ({ token, media, favourites, favouriteAlbum, unFavouriteAlbum,
                                 <div>
                                     <strong>Spotify • </strong>
                                     {/* <span>{albumInfo.followers.total} likes • </span> */}
-                                    <span>{albumInfo.tracks.items.length} songs </span>
+                                    <span>{albumInfo.tracks.items.length} {albumInfo.tracks.items.length > 1 ? "songs" : "song"} </span>
                                 </div>
                             </Col>
                         </Row>
@@ -70,8 +81,12 @@ const AlbumPage = ({ token, media, favourites, favouriteAlbum, unFavouriteAlbum,
                     <Row className="pb-3">
                         <Col xs={12}>
 
-                            {!media.play && <CgPlayButton onClick={playPause} className="me-4" style={{ fontSize: "55px", backgroundColor: "1db954", borderRadius: "50%" }} />}
-                            {media.play && <BiPause onClick={playPause} className="me-4" style={{ fontSize: "55px", backgroundColor: "1db954", borderRadius: "50%" }} />}
+                            {!media.play && <CgPlayButton onClick={playHandler} className="me-4" style={{ fontSize: "55px", backgroundColor: "1db954", borderRadius: "50%" }} />}
+                            {media.play && albumData.some(item => item.id === media.selectedSong.id) && 
+                            <BiPause onClick={playPause} className="me-4" style={{ fontSize: "55px", backgroundColor: "1db954", borderRadius: "50%" }} />}
+
+                            {media.play && !albumData.some(item => item.id === media.selectedSong.id) && 
+                            <CgPlayButton onClick={() => {playHandler(); playPause()}} className="me-4" style={{ fontSize: "55px", backgroundColor: "1db954", borderRadius: "50%" }} />}
 
                             {favourites.albums.find(item => item.id === albumInfo?.id) ? <IoMdHeart className="me-4" style={{ fontSize: "35px", color: "1db954" }} onClick={() => { unFavouriteAlbum(albumInfo) }} />
                                 : <IoMdHeart className="me-4" style={{ fontSize: "35px", }} onClick={() => { favouriteAlbum(albumInfo); }} />}

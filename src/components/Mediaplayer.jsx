@@ -25,38 +25,61 @@ const Mediaplayer = ({ media, favourites, unFavourite, favourite, playPause, set
     const handleClose = () => setShow(false);
 
     const nextSong = () => {
-        const index = media.queue.findIndex(x => x.track.id === media.selectedSong.id)
-
-        console.log(index)
+        const index = media.queue.findIndex(x => x.id === media.selectedSong.id || x.track?.id === media.selectedSong.id)
         const songToSkipTo = media.queue[index === media.queue.length - 1 ? 0 : index + 1]
+     
+        if (typeof(songToSkipTo.track) === "object") {
+            console.log("fired")
+            if (songToSkipTo.track.preview_url === null) {
+                setShow(true)
 
-        if (songToSkipTo.track.preview_url === null) {
-            setShow(true)
-
+            } else {
+                setPlaying(songToSkipTo.track)
+                if (!media.play) {
+                    playPause()
+                }
+            }
         } else {
-            setPlaying(songToSkipTo.track)
 
-            if (!media.play) {
-                playPause()
+            if (songToSkipTo.preview_url === null) {
+                setShow(true)
+            } else {
+                setPlaying(songToSkipTo)
+                if (!media.play) {
+                    playPause()
+                }
             }
         }
+
+
     }
 
     const prevSong = () => {
-        const index = media.queue.findIndex(x => x.track.id === media.selectedSong.id)
-
+        const index = media.queue.findIndex(x => x.id === media.selectedSong.id || x.track?.id === media.selectedSong.id)
         const songToSkipTo = media.queue[index === 0 ? media.queue.length - 1 : index - 1]
+        
+        if (typeof(songToSkipTo.track) === "object") {
+            if (songToSkipTo.track.preview_url === null) {
+                setShow(true)
 
-        if (songToSkipTo.track.preview_url === null) {
-            setShow(true)
-
+            } else {
+                setPlaying(songToSkipTo.track)
+                if (!media.play) {
+                    playPause()
+                }
+            }
         } else {
-            setPlaying(songToSkipTo.track)
 
-            if (!media.play) {
-                playPause()
+            if (songToSkipTo.preview_url === null) {
+                setShow(true)
+            } else {
+                setPlaying(songToSkipTo)
+                if (!media.play) {
+                    playPause()
+                }
             }
         }
+
     }
 
     useEffect(() => {
@@ -69,7 +92,7 @@ const Mediaplayer = ({ media, favourites, unFavourite, favourite, playPause, set
     useEffect(() => {
         const audio = audioRef.current
         audio.volume = volume / 100
-        console.log(audio.currentTime)
+
     }, [volume])
 
     useEffect(() => {
@@ -78,7 +101,7 @@ const Mediaplayer = ({ media, favourites, unFavourite, favourite, playPause, set
             setCurrentTime(event.currentTarget.currentTime);
         });
         audio.addEventListener("ended", (event) => {
-            playPause()
+            nextSong()
         });
     }, [])
 
@@ -87,7 +110,7 @@ const Mediaplayer = ({ media, favourites, unFavourite, favourite, playPause, set
         <>
             <Col xs={8} md={4} className="media-left d-flex align-items-center text-truncate">
 
-                <img height="40px" width="40px" src={media.selectedSong.album?.images[2].url || "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1200px-Image_created_with_a_mobile_phone.png"} alt="song-cover" />
+                <img height="40px" width="40px" src={media.selectedSong.album?.images[2]?.url || "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1200px-Image_created_with_a_mobile_phone.png"} alt="song-cover" />
 
                 <div className="d-flex flex-column ms-3 text-truncate">
                     <span className="text-truncate">{media.selectedSong?.name}</span>

@@ -100,9 +100,13 @@ export const dataReducer = (state = initialState.data, action) => {
         case 'SET_ALBUM_DATA':
             return {
                 ...state,
-                albumData: [ ...action.payload]
+                albumData: [...action.payload]
             }
-
+        case 'SET_TOP_TRACKS':
+            return {
+                ...state,
+                topTracks: action.payload
+            }
         default:
             return state
     }
