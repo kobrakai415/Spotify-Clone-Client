@@ -10,7 +10,7 @@ export default function Auth(code) {
 
     useEffect(() => {
         axios
-            .post("http://localhost:3001/login", {
+            .post("https://strivify.herokuapp.com/login", {
                 code,
             })
             .then(res => {
