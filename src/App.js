@@ -57,7 +57,6 @@ function App() {
     <div className="App">
       {accessToken ? <Dashboard token={accessToken} /> : null}
 
-
     </div>
   );
 

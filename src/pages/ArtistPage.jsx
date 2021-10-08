@@ -98,7 +98,7 @@ const ArtistPage = ({ token, media, data, favourites, playPause, favouriteArtist
             setPlaying({ ...songToPlay });
             playPause()
         } else {
-            previewAvailable(false)
+            setPreviewAvailable(false)
 
         }
     }
